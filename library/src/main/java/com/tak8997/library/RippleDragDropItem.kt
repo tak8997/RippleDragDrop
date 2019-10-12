@@ -16,12 +16,24 @@ internal class RippleDragDropItem @JvmOverloads constructor(
     var title = ""
     var tagTitle = ""
 
+    private val rippleEffect by lazy {
+        RippleEffect(context)
+    }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.item_ripple_drag_drop, this)
     }
 
     fun setSelection(selected: Boolean) {
-        layoutSelected.visibility = if (selected) View.VISIBLE else View.INVISIBLE
+        if (selected) {
+            addView(rippleEffect)
+            rippleEffect.startRipple()
+            layoutSelected.visibility = View.VISIBLE
+        } else {
+            rippleEffect.stopRipple()
+            removeView(rippleEffect)
+            layoutSelected.visibility = View.INVISIBLE
+        }
     }
 
     fun getSelection(): Boolean {

@@ -117,6 +117,9 @@ class RippleDragDrop @JvmOverloads constructor(
     }
 
     private fun setViews() {
+        clipChildren = false
+        clipToPadding = false
+
         orientation = VERTICAL
         gravity = Gravity.CENTER_VERTICAL
         setWillNotDraw(false)
