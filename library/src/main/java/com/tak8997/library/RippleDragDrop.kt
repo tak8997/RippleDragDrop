@@ -9,6 +9,7 @@ import android.os.Vibrator
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.MotionEvent
+import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import com.tak8997.library.util.toPx
 import kotlin.math.roundToInt
@@ -21,7 +22,7 @@ class RippleDragDrop @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     companion object {
-        private const val DEFAULT_LAYOUT_MARGIN = 15
+        private const val DEFAULT_LAYOUT_MARGIN = 2
         private const val DEFAULT_BORDER_COLOR = Color.LTGRAY
         private const val DEFAULT_BORDER_WIDTH = 3.0f
     }
@@ -29,7 +30,25 @@ class RippleDragDrop @JvmOverloads constructor(
     private val rectF by lazy {
         RectF(0f, 0f, width.toFloat(), height.toFloat())
     }
-    private val paint = Paint()
+    private val dragRectF by lazy {
+        RectF()
+    }
+    private val bgPaint by lazy {
+        Paint().apply {
+            isAntiAlias = true
+            strokeWidth = borderWidth
+            color = Color.parseColor("#f1f1f1")
+            style = Paint.Style.FILL
+        }
+    }
+    private val dragBgPaint by lazy {
+        Paint().apply {
+            isAntiAlias = true
+            color = Color.parseColor("#5f14d3")
+            style = Paint.Style.FILL
+            alpha = 100
+        }
+    }
     private val dragDropItems = mutableListOf<RippleDragDropItem>()
     private val items = mutableListOf<String>()
     private val tags = mutableListOf<String>()
@@ -37,6 +56,7 @@ class RippleDragDrop @JvmOverloads constructor(
     private var selectedIndex: Int = -1
     private var itemSize = 0
     private var itemGap = 0
+    private var selectedItemPositionY = 0f
     private var onItemSelectedListener: ((index: Int, item: RippleDragDropItem) -> Unit)? = null
 
     private var layoutMargin = DEFAULT_LAYOUT_MARGIN
@@ -52,7 +72,13 @@ class RippleDragDrop @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawRoundRect(rectF, (itemSize / 2).toFloat(), (itemSize / 2).toFloat(), paint)
+
+        dragRectF.left = 0f
+        dragRectF.top = selectedItemPositionY
+        dragRectF.right = width.toFloat()
+        dragRectF.bottom = height.toFloat()
+        canvas?.drawRoundRect(rectF, (itemSize / 2).toFloat(), (itemSize / 2).toFloat(), bgPaint)
+        canvas?.drawRoundRect(dragRectF, (itemSize / 2).toFloat(), (itemSize / 2).toFloat(), dragBgPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -96,12 +122,15 @@ class RippleDragDrop @JvmOverloads constructor(
 
         val item = dragDropItems[index]
         item.setSelection(true)
+        selectedItemPositionY = item.y
 
         if (selectedIndex != index) {
             selectedIndex = index
         } else {
             onItemSelectedListener?.invoke(index, item)
         }
+
+        invalidate()
     }
 
     private fun setAttrs(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
@@ -124,11 +153,13 @@ class RippleDragDrop @JvmOverloads constructor(
         gravity = Gravity.CENTER_VERTICAL
         setWillNotDraw(false)
 
-        paint.apply {
-            isAntiAlias = true
-            strokeWidth = borderWidth
-            color = borderColor
-            style = Paint.Style.FILL
+        dragDropItems[dragDropItems.lastIndex].run {
+            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    selectedItemPositionY = dragDropItems[dragDropItems.lastIndex].y
+                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            })
         }
     }
 
