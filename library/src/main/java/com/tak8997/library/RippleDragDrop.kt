@@ -73,6 +73,9 @@ class RippleDragDrop @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
+        dragBgPaint.color = getDragColor(selectedIndex).color
+        dragBgPaint.alpha = 100
+        dragBgPaint.isAntiAlias = true
         dragRectF.left = 0f
         dragRectF.top = selectedItemPositionY
         dragRectF.right = width.toFloat()
@@ -122,6 +125,7 @@ class RippleDragDrop @JvmOverloads constructor(
 
         val item = dragDropItems[index]
         item.setSelection(true)
+        item.setColor(getDragColor(selectedIndex))
         selectedItemPositionY = item.y
 
         if (selectedIndex != index) {
@@ -170,5 +174,22 @@ class RippleDragDrop @JvmOverloads constructor(
 
     private fun deselectAll() {
         dragDropItems.forEach { it.setSelection(false) }
+    }
+
+    private fun getDragColor(selecteIndex: Int): ItemColor {
+        return when (val itemSize = dragDropItems.size) {
+            1,2 -> return if (selecteIndex == 1) ItemColor.Purple else ItemColor.Red
+            3 -> return when (selecteIndex) {
+                2 -> ItemColor.Purple
+                1 -> ItemColor.Green
+                else -> ItemColor.Red
+            }
+            else -> when {
+                selecteIndex >= itemSize * 3 / 4 -> ItemColor.Purple
+                selecteIndex >= itemSize * 2 / 4 -> ItemColor.Green
+                selecteIndex >= itemSize * 1 / 4 -> ItemColor.Blue
+                else -> ItemColor.Red
+            }
+        }
     }
 }
