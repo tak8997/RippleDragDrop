@@ -79,4 +79,10 @@ internal class RippleEffect @JvmOverloads constructor(
     fun stopRipple() {
         animatorSet.end()
     }
+
+    fun setColor(itemColor: ItemColor) {
+        paint.isAntiAlias = true
+        paint.style = Paint.Style.FILL_AND_STROKE
+        paint.color = itemColor.color
+    }
 }
