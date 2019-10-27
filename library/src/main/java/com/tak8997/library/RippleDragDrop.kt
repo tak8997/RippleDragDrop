@@ -50,9 +50,9 @@ class RippleDragDrop @JvmOverloads constructor(
         }
     }
     private val dragDropItems = mutableListOf<RippleDragDropItem>()
-    private val items = mutableListOf<String>()
     private val tags = mutableListOf<String>()
 
+    private var itemCount = 0
     private var selectedIndex: Int = -1
     private var itemSize = 0
     private var itemGap = 0
@@ -92,7 +92,7 @@ class RippleDragDrop @JvmOverloads constructor(
             return true
         }
 
-        var rating = event.y / height * items.size
+        var rating = event.y / height * dragDropItems.size
         rating = (rating * 100).roundToInt() / 100f
         setSelection(rating.toInt())
 
@@ -100,7 +100,7 @@ class RippleDragDrop @JvmOverloads constructor(
     }
 
     fun setItems() {
-        repeat(items.size) { index ->
+        repeat(itemCount) { index ->
             val item = RippleDragDropItem(context)
             val itemParams = LayoutParams(itemSize, itemSize)
             itemParams.setMargins(layoutMargin, layoutMargin, layoutMargin, layoutMargin)
@@ -136,7 +136,7 @@ class RippleDragDrop @JvmOverloads constructor(
     private fun setAttrs(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RippleDragDrop, defStyleAttr, 0)
 
-        items.addAll(typedArray.getString(R.styleable.RippleDragDrop_items)?.split(",") ?: mutableListOf())
+        itemCount = typedArray.getInt(R.styleable.RippleDragDrop_itemCount, 0)
         tags.addAll(typedArray.getString(R.styleable.RippleDragDrop_tags)?.split(",") ?: mutableListOf())
         selectedIndex = typedArray.getInt(R.styleable.RippleDragDrop_selection, dragDropItems.lastIndex)
         itemSize = typedArray.getDimensionPixelSize(R.styleable.RippleDragDrop_itemSize, 50.toPx())
