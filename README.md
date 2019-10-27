@@ -13,5 +13,5 @@ allprojects {
 ```
 ```
 dependencies {
-	implementation 'com.github.tak8997:RippleDragDrop:Tag'
+	implementation 'com.github.tak8997:RippleDragDrop:2.0.0'
 }
