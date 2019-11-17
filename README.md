@@ -21,6 +21,7 @@ dependencies {
 
 ```xml
 <com.tak8997.library.RippleDragDrop
+        android:id="@+id/rippleDragDrop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
