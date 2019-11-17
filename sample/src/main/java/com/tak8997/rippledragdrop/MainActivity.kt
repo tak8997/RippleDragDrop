@@ -10,7 +10,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        rootLayout.clipChildren = false
-        rootLayout.clipToPadding = false
+        with(rippleDragDrop) {
+            setItemCount(4)
+            setItemSize(50)
+            setItemGap(50)
+        }
     }
 }

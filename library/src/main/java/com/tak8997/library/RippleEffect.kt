@@ -84,5 +84,6 @@ internal class RippleEffect @JvmOverloads constructor(
         paint.isAntiAlias = true
         paint.style = Paint.Style.FILL_AND_STROKE
         paint.color = itemColor.color
+        invalidate()
     }
 }
