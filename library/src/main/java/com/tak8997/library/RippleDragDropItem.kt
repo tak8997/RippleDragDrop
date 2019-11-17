@@ -39,4 +39,9 @@ internal class RippleDragDropItem @JvmOverloads constructor(
     fun getSelection(): Boolean {
         return layoutSelected.visibility == View.VISIBLE
     }
+
+    fun setColor(itemColor: ItemColor) {
+        imageSelected.setColorFilter(itemColor.color)
+        rippleEffect.setColor(itemColor)
+    }
 }
