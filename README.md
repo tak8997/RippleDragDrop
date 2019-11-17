@@ -15,6 +15,7 @@ allprojects {
 dependencies {
 	implementation 'com.github.tak8997:RippleDragDrop:2.0.0'
 }
+```
 
 ## Usage
 
@@ -27,6 +28,4 @@ dependencies {
         app:itemSize="50dp"
         app:itemGap="50dp"/>
 ```
-```Java
 
-```
