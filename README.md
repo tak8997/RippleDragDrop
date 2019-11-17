@@ -15,3 +15,18 @@ allprojects {
 dependencies {
 	implementation 'com.github.tak8997:RippleDragDrop:2.0.0'
 }
+
+## Usage
+
+```xml
+<com.tak8997.library.RippleDragDrop
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:itemCount="4"
+        app:itemSize="50dp"
+        app:itemGap="50dp"/>
+```
+```Java
+
+```
