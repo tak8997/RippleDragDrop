@@ -13,9 +13,6 @@ internal class RippleDragDropItem @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    var title = ""
-    var tagTitle = ""
-
     private val rippleEffect by lazy {
         RippleEffect(context)
     }
