@@ -30,12 +30,14 @@ dependencies {
 		app:itemGap="50dp" />
 
 
+or
+
 
 	with(rippleDragDrop) {
 		Builder()
-	            .setItemSize(50)
-        	    .setItemCount(4)
-		    .setItemGap(50)
-        	    .build()	
+	   	  .setItemSize(50)
+		  .setItemCount(4)
+		  .setItemGap(50)
+		  .build()	
 	}
 
