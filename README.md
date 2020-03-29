@@ -32,8 +32,10 @@ dependencies {
 
 ```
 with(rippleDragDrop) {
-    setItemCount(4)
-    setItemSize(50)
-    setItemGap(50)
+	Builder()
+            .setItemSize(50)
+            .setItemCount(4)
+	    .setItemGap(50)
+            .build()	
 }
 ```
