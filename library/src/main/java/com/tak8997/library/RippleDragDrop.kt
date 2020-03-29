@@ -35,9 +35,11 @@ class RippleDragDrop @JvmOverloads constructor(
     private val rectF by lazy {
         RectF(0f, 0f, width.toFloat(), height.toFloat())
     }
+
     private val dragRectF by lazy {
         RectF()
     }
+
     private val bgPaint by lazy {
         Paint().apply {
             isAntiAlias = true
@@ -46,6 +48,7 @@ class RippleDragDrop @JvmOverloads constructor(
             style = Paint.Style.FILL
         }
     }
+
     private val dragBgPaint by lazy {
         Paint().apply {
             isAntiAlias = true
@@ -88,7 +91,12 @@ class RippleDragDrop @JvmOverloads constructor(
         dragRectF.bottom = height.toFloat()
 
         canvas?.drawRoundRect(rectF, (itemSize / 2).toFloat(), (itemSize / 2).toFloat(), bgPaint)
-        canvas?.drawRoundRect(dragRectF, (itemSize / 2).toFloat(), (itemSize / 2).toFloat(), dragBgPaint)
+        canvas?.drawRoundRect(
+            dragRectF,
+            (itemSize / 2).toFloat(),
+            (itemSize / 2).toFloat(),
+            dragBgPaint
+        )
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -109,49 +117,22 @@ class RippleDragDrop @JvmOverloads constructor(
         return true
     }
 
-    fun setItemCount(count: Int) {
-        if (itemCount == count) {
-            return
-        }
-
-        itemCount = count
-        setupItems()
-        setupSelection(selectedIndex)
-        setupViews()
-        invalidate()
-    }
-
-    fun setItemSize(size: Int) {
-        if (itemSize == size) {
-            return
-        }
-
-        itemSize = size.toPx()
-        setupItems()
-        setupSelection(selectedIndex)
-        setupViews()
-        invalidate()
-    }
-
-    fun setItemGap(gap: Int) {
-        if (itemGap == gap) {
-            return
-        }
-
-        itemGap = gap.toPx()
-        setupItems()
-        setupSelection(selectedIndex)
-        setupViews()
-        invalidate()
-    }
-
     private fun setupAttrs(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RippleDragDrop, defStyleAttr, 0)
+        val typedArray =
+            context.obtainStyledAttributes(attrs, R.styleable.RippleDragDrop, defStyleAttr, 0)
 
         itemCount = typedArray.getInt(R.styleable.RippleDragDrop_itemCount, DEFAULT_ITEM_COUNT)
-        itemSize = typedArray.getDimensionPixelSize(R.styleable.RippleDragDrop_itemSize, DEFAULT_ITEM_SIZE.toDp())
-        itemGap = typedArray.getDimensionPixelSize(R.styleable.RippleDragDrop_itemGap, DEFAULT_ITEM_GAP.toDp())
-        tags.addAll(typedArray.getString(R.styleable.RippleDragDrop_tags)?.split(",") ?: mutableListOf())
+        itemSize = typedArray.getDimensionPixelSize(
+            R.styleable.RippleDragDrop_itemSize,
+            DEFAULT_ITEM_SIZE.toDp()
+        )
+        itemGap = typedArray.getDimensionPixelSize(
+            R.styleable.RippleDragDrop_itemGap,
+            DEFAULT_ITEM_GAP.toDp()
+        )
+        tags.addAll(
+            typedArray.getString(R.styleable.RippleDragDrop_tags)?.split(",") ?: mutableListOf()
+        )
 
         typedArray.recycle()
     }
@@ -208,7 +189,8 @@ class RippleDragDrop @JvmOverloads constructor(
         setWillNotDraw(false)
 
         dragDropItems[dragDropItems.lastIndex].run {
-            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     selectedItemPositionY = dragDropItems[dragDropItems.lastIndex].y
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -236,7 +218,7 @@ class RippleDragDrop @JvmOverloads constructor(
 
     private fun getDragColor(selecteIndex: Int): ItemColor {
         return when (val itemSize = dragDropItems.size) {
-            1,2 -> return if (selecteIndex == 1) ItemColor.Purple else ItemColor.Red
+            1, 2 -> return if (selecteIndex == 1) ItemColor.Purple else ItemColor.Red
             3 -> return when (selecteIndex) {
                 2 -> ItemColor.Purple
                 1 -> ItemColor.Green
@@ -248,6 +230,43 @@ class RippleDragDrop @JvmOverloads constructor(
                 selecteIndex >= itemSize * 1 / 4 -> ItemColor.Blue
                 else -> ItemColor.Red
             }
+        }
+    }
+
+    inner class Builder {
+
+        fun setItemCount(count: Int): Builder {
+            if (itemCount == count) {
+                return this
+            }
+
+            itemCount = count
+            return this
+        }
+
+        fun setItemSize(size: Int): Builder {
+            if (itemSize == size) {
+                return this
+            }
+
+            itemSize = size.toPx()
+            return this
+        }
+
+        fun setItemGap(gap: Int): Builder {
+            if (itemGap == gap) {
+                return this
+            }
+
+            itemGap = gap.toPx()
+            return this
+        }
+
+        fun build() {
+            setupItems()
+            setupSelection(selectedIndex)
+            setupViews()
+            invalidate()
         }
     }
 }

@@ -11,9 +11,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         with(rippleDragDrop) {
-            setItemCount(4)
-            setItemSize(50)
-            setItemGap(50)
+            Builder()
+                .setItemSize(50)
+                .setItemCount(4)
+                .setItemGap(50)
+                .build()
         }
     }
 }
