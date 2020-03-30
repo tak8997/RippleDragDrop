@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RippleDragDrop">
+        <attr name="itemCount" format="integer|reference"/>
+        <attr name="tags" format="string|reference"/>
+        <attr name="itemSize" format="dimension"/>
+        <attr name="itemGap" format="dimension"/>
+    </declare-styleable>
+</resources>
