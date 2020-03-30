@@ -1,6 +1,11 @@
 # RippleDragDrop
 Drag drop selection with ripple animation
 
+
+## RippleDragDrop View
+![RippleDragDrop](https://github.com/tak8997/RippleDragDrop/blob/master/screenshots/RippleDragDrop.gif)
+
+
 ## Include your project
 add build.gradle
 ```
