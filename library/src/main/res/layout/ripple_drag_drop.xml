@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/layout_item_background"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:id="@+id/layoutItems"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
+</FrameLayout>
