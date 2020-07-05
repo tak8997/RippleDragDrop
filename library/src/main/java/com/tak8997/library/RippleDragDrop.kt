@@ -213,7 +213,12 @@ class RippleDragDrop @JvmOverloads constructor(
     }
 
     private fun deselectAll() {
-        dragDropItems.forEach { it.setSelection(false) }
+        dragDropItems.forEachIndexed { index, item ->
+            if (selectedIndex == index) {
+                return@forEachIndexed
+            }
+            item.setSelection(false)
+        }
     }
 
     private fun getDragColor(selecteIndex: Int): ItemColor {

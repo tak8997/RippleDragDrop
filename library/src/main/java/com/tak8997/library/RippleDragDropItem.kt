@@ -76,6 +76,7 @@ internal class RippleDragDropItem @JvmOverloads constructor(
         animatorSet.apply {
             interpolator = AccelerateDecelerateInterpolator()
             playTogether(animators)
+            start()
         }
     }
 
@@ -85,7 +86,7 @@ internal class RippleDragDropItem @JvmOverloads constructor(
             animatorSet.start()
         } else {
             hideRippleEffects()
-            animatorSet.end()
+            animatorSet.pause()
         }
     }
 
