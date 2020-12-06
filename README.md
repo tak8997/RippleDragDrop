@@ -3,7 +3,7 @@ Drag drop selection with ripple animation
 
 
 ## RippleDragDrop View
-![RippleDragDrop](https://github.com/tak8997/RippleDragDrop/blob/master/screenshots/RippleDragDrop.gif)
+![20201206_173758](https://user-images.githubusercontent.com/19990905/101276088-01fc7b00-37ee-11eb-894e-259f65a7d198.gif)
 
 
 ## Include your project
